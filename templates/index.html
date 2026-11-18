@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELmart</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+<header>
+    <div class="logo">
+        <a href="/">
+            <img src="/images/logo.png" alt="Logo">
+            <span>ELmart</span>
+        </a>
+    </div>
+    <div class="search">
+        <input id="search" placeholder="Пошук товарів...">
+    </div>
+    <div style="display: flex; gap: 10px; align-items: center;">
+        <button class="cartButton" onclick="openCart()">
+            🛒 Кошик
+            <span class="cartCount">0</span>
+        </button>
+    </div>
+</header>
+
+<nav>
+    <a onclick="showCategory('all')">Усі</a>
+    <a onclick="showCategory('phones')">Смартфони</a>
+    <a onclick="showCategory('laptops')">Ноутбуки</a>
+    <a onclick="showCategory('gaming')">Геймінг</a>
+    <a onclick="showCategory('tv')">Телевізори</a>
+    <a onclick="showCategory('pc')">Комп'ютери</a>
+    <a onclick="showCategory('audio')">Навушники</a>
+    <a onclick="showCategory('accessories')">Аксесуари</a>
+</nav>
+
+<main>
+    <h2 class="sectionTitle">Товари</h2>
+    <div class="products"></div>
+</main>
+
+<div class="overlay" onclick="closeCart()"></div>
+<div class="cart">
+    <div class="cartHeader">
+        <h2>Кошик</h2>
+        <button class="closeCart" onclick="closeCart()">×</button>
+    </div>
+    <div class="cartItems"></div>
+    <div class="cartFooter">
+        <div class="total">
+            <span>Разом:</span>
+            <span>₴ 0</span>
+        </div>
+        <button class="buyBtn">Купити</button>
+        <button class="clearBtn" onclick="clearCart()">Очистити</button>
+    </div>
+</div>
+
+<div class="toast"></div>
+<script src="/static/js/script.js"></script>
+</body>
+</html>

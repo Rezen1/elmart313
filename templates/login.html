@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELmart - Вхід в адмінку</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+    <div style="background: #fff; padding: 30px; border-radius: 14px; box-shadow: var(--shadow); width: 300px; text-align: center;">
+        <h2>Вхід в адмінку</h2>
+        <form id="loginForm" onsubmit="login(event)" style="margin-top: 20px;">
+            <input type="password" id="password" placeholder="Введіть пароль" required style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 8px;">
+            <button type="submit" style="width: 100%; padding: 10px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">Увійти</button>
+        </form>
+    </div>
+<script>
+async function login(e) {
+    e.preventDefault();
+    const password = document.getElementById("password").value;
+    const res = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password })
+    });
+    if (res.ok) {
+        window.location.href = "/admin";
+    } else {
+        alert("Невірний пароль!");
+    }
+}
+</script>
+</body>
+</html>

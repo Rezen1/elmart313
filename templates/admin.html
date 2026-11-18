@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELmart - Адмін-панель</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        .admin-container { max-width: 800px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 14px; box-shadow: var(--shadow); }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; }
+        .admin-btn { background: var(--primary); color: white; padding: 12px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; border: none; }
+        .admin-product-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee; }
+    </style>
+</head>
+<body>
+
+
+<div class="admin-container">
+    <h2>Додати новий товар через FastAPI</h2>
+    <form id="addProductForm" onsubmit="addNewProduct(event)" style="margin-top: 20px;">
+        <div class="form-group"><label>Назва товару:</label><input type="text" id="name" required></div>
+        <div class="form-group"><label>Ціна (₴):</label><input type="number" id="price" required></div>
+        <div class="form-group"><label>Категорія (phones, laptops, gaming тощо):</label><input type="text" id="category" required></div>
+        <div class="form-group"><label>Шлях до картинки (наприклад: images/1.png):</label><input type="text" id="img" value="images/1.png" required></div>
+        <div class="form-group"><label>Опис:</label><textarea id="description" required></textarea></div>
+        <div class="form-group"><label>Кількість на складі:</label><input type="number" id="stock" value="10" required></div>
+        <button type="submit" class="admin-btn">Додати товар</button>
+    </form>
+
+    <h2 style="margin-top: 40px;">Керування існуючими товарами</h2>
+    <div id="adminProductsList" style="margin-top: 15px;"></div>
+</div>
+
+<script>
+async function fetchAdminProducts() {
+    const res = await fetch("/api/products");
+    const data = await res.json();
+    const list = document.getElementById("adminProductsList");
+    list.innerHTML = "";
+
+    Object.keys(data).forEach(id => {
+        const p = data[id];
+        list.innerHTML += `
+            <div class="admin-product-item">
+                <span><b>${p.name}</b> — ${p.price} ₴</span>
+                <button onclick="deleteProduct('${id}')" style="background:#ff4b4b; color:white; padding:6px 12px; border-radius:6px; cursor:pointer; border:none;">Видалити</button>
+            </div>
+        `;
+    });
+}
+
+async function addNewProduct(e) {
+    e.preventDefault();
+    const productData = {
+        name: document.getElementById("name").value,
+        price: Number(document.getElementById("price").value),
+        category: document.getElementById("category").value,
+        img: document.getElementById("img").value,
+        description: document.getElementById("description").value,
+        stock: Number(document.getElementById("stock").value),
+        sale: "no",
+        discount: "",
+        rating: 5.0
+    };
+
+    const res = await fetch("/api/products", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(productData)
+    });
+
+    if (res.ok) {
+        alert("Товар успішно додано!");
+        document.getElementById("addProductForm").reset();
+        fetchAdminProducts();
+    }
+}
+
+async function deleteProduct(id) {
+    if (!confirm("Видалити цей товар?")) return;
+    const res = await fetch(`/api/products/${id}`, { method: "DELETE" });
+    if (res.ok) {
+        fetchAdminProducts();
+    }
+}
+
+fetchAdminProducts();
+</script>
+</body>
+</html>

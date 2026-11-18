@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELmart - Товар</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+<header>
+    <div class="logo">
+        <a href="/">
+            <img src="/images/logo.png" alt="Logo">
+            <span>ELmart</span>
+        </a>
+    </div>
+    <button class="backButton" onclick="location.href='/'">← На головну</button>
+    <button class="cartButton" onclick="openCart()">
+        🛒 Кошик
+        <span class="cartCount">0</span>
+    </button>
+</header>
+
+<div class="overlay" onclick="closeCart()"></div>
+<div class="cart">
+    <div class="cartHeader">
+        <h2>Кошик</h2>
+        <button class="closeCart" onclick="closeCart()">×</button>
+    </div>
+    <div class="cartItems"></div>
+    <div class="cartFooter">
+        <div class="total">
+            <span>Разом:</span>
+            <span>₴ 0</span>
+        </div>
+        <button class="buyBtn">Купити</button>
+        <button class="clearBtn" onclick="clearCart()">Очистити</button>
+    </div>
+</div>
+
+<main class="productPage">
+    <div class="productImage">
+        <img class="productImg" src="" alt="Товар">
+    </div>
+    <div class="productInfo">
+        <h1 class="productTitle">Завантаження...</h1>
+        <div class="productRating"></div>
+        <div class="productOldPrice"></div>
+        <div class="productPrice"></div>
+        <div class="productStock"></div>
+        <p class="productDesc"></p>
+        <button onclick="addCurrentProductToCart()">Додати в кошик</button>
+    </div>
+</main>
+
+<div class="toast"></div>
+<script src="/static/js/script.js"></script>
+</body>
+</html>
